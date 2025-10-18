@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -876,25 +876,71 @@ require('lazy').setup({
     },
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
+      -- Configuration for Catppuccin
+      require('catppuccin').setup {
+        -- This determines the default set of colors.
+        -- Since you overrode 'mocha' colors, setting this to 'mocha' makes sense.
+        flavour = 'mocha',
+
+        background = { -- :h backgroundGGu (NOTE: Setting this usually overrides 'flavour')
+          light = 'latte',
+          dark = 'latte', -- Setting 'dark' to 'latte' (a light theme) is unusual for a dark Neovim config.
+        },
+        transparent_background = false,
+        term_colors = false, -- Set to false based on your input
+        show_end_of_buffer = false, -- show the '~' characters after the end of buffers
+
+        dim_inactive = {
+          enabled = false,
+          shade = 'dark',
+          percentage = 0.15,
+        },
+        no_italic = false, -- Force no italic
+        no_bold = false, -- Force no bold
+
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          comments = { 'italic' },
+          conditionals = { 'italic' },
+          loops = {},
+          functions = {},
+          keywords = {},
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = {},
+          properties = {},
+          types = {},
+          operators = {},
+        },
+
+        color_overrides = {
+          mocha = { -- The provided overrides, which make the background pure black (#000000) for mocha.
+            base = '#000000',
+            mantle = '#000000',
+            crust = '#000000',
+          },
+        },
+
+        custom_highlights = {},
+
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = true,
+          telescope = true,
+          notify = false,
+          mini = false,
+          -- You can add more integrations here.
         },
       }
 
       -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
 
